@@ -1,4 +1,4 @@
 export enum ModelEnum {
     User = 'user',
-    document = 'document',
+    Workspace = 'workspace',
 }

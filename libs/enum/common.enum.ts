@@ -15,3 +15,8 @@ export enum FnFileReturnTypeEnum {
 export enum RoleEnum {
     User = 'user',
 }
+
+export enum WorkspaceItemType {
+    Folder = 'folder',
+    File = 'file',
+}
