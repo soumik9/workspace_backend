@@ -29,7 +29,7 @@ class ParserService {
         const limit = query.limit ? parseInt(query.limit as string, 10) : 999999;
 
         // Optional string keys that should always be string
-        const stringKeys = ["admin_id"];
+        const stringKeys = ["workspace_id", "user_id", "search"];
         const extra: Record<string, string> = {};
 
         stringKeys.forEach((key) => {

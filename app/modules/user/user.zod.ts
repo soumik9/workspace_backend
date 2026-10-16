@@ -51,7 +51,7 @@ class UserZodSchema {
 
     public readonly login = z.object({
         body: z.object({
-            email: z.string().email({ message: "Email is invalid" }).nonempty({ message: "Email is required" }),
+            email: z.email({ message: "Email is invalid" }).nonempty({ message: "Email is required" }),
             password: z.string().nonempty({ message: "Password is required" }),
         }),
     });

@@ -3,7 +3,7 @@ import httpStatus from "http-status";
 import { IApiResponseMeta } from "../core";
 import { ApiError } from "../../../../config";
 import { IBaseFindParams } from "./base.interface";
-import { PaginationInstance } from "../../../../libs/helper";
+import { PaginationInstance } from "../../../../libs/helper/core/paginate.helper";
 import { Model, FilterQuery, ClientSession, PopulateOptions } from "mongoose";
 
 export abstract class BaseService<T> {
