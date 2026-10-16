@@ -1,5 +1,5 @@
 export enum PassportKeyEnum {
-    AdminAuth = 'admin_auth',
+    UserAuth = 'user_auth',
 }
 
 export enum ServerEnvironmentEnum {
