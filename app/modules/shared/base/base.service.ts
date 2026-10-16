@@ -3,7 +3,7 @@ import httpStatus from "http-status";
 import { IApiResponseMeta } from "../core";
 import { ApiError } from "../../../../config";
 import { IBaseFindParams } from "./base.interface";
-import { PaginationInstance, CacheService } from "../../../../libs/helper";
+import { PaginationInstance } from "../../../../libs/helper";
 import { Model, FilterQuery, ClientSession, PopulateOptions } from "mongoose";
 
 export abstract class BaseService<T> {
@@ -22,25 +22,14 @@ export abstract class BaseService<T> {
         conflictMessage = `${this.entityName} already exists!`,
         notFoundMessage = `${this.entityName} not found!`,
         populate,
-        cacheKey = "",
     }: IBaseFindParams<T>): Promise<any> {
 
-        let item;
-        if (cacheKey) {
-            item = await CacheService.get<T>(cacheKey);
+        let dbQuery = this.model.findOne(query).lean();
+        if (populate) {
+            dbQuery = dbQuery.populate(populate);
         }
-
-        if (!item) {
-            let dbQuery = this.model.findOne(query).lean();
-            if (populate) {
-                dbQuery = dbQuery.populate(populate);
-            }
-            const queryItem = await dbQuery;
-            item = (queryItem && filterWithDto) ? new this.defaultMapper(queryItem as T) : queryItem;
-            if (cacheKey && item) {
-                await CacheService.set([{ key: cacheKey, value: item }]);
-            }
-        }
+        const queryItem = await dbQuery;
+        const item = (queryItem && filterWithDto) ? new this.defaultMapper(queryItem as T) : queryItem;
 
         // Conflict check: Item exists when it shouldn't
         if (isConflicted && item) {
@@ -120,21 +109,15 @@ export abstract class BaseService<T> {
 
     // get all
     public async getAll<R = T>({
-        query = {}, filterWithDto = false, populate, sort, select, cacheKey
+        query = {}, filterWithDto = false, populate, sort, select
     }: {
         query?: FilterQuery<T>;
         filterWithDto?: boolean;
         populate?: PopulateOptions | PopulateOptions[];
         sort?: string | Record<string, 1 | -1 | 'asc' | 'desc'>;
         select?: string | Record<string, any>;
-        cacheKey?: string;
     }): Promise<R[]> {
-        if (cacheKey) {
-            const cachedData = await CacheService.get<R[]>(cacheKey);
-            if (cachedData) {
-                return cachedData;
-            }
-        }
+
         const docs = await this.model.find(query).select(select || {}).sort(sort || {}).lean();
         if (populate) {
             await this.model.populate(docs, populate);
@@ -155,14 +138,6 @@ export abstract class BaseService<T> {
         sort?: Record<string, any>;
         cacheKey?: string;
     }): Promise<{ data: any[]; meta: IApiResponseMeta }> {
-        if (cacheKey) {
-            const cachedData = await CacheService.get(cacheKey) as { data: any[]; meta: IApiResponseMeta } | null;
-
-            if (cachedData) {
-                return cachedData;
-            }
-        }
-
         const result = (await PaginationInstance.auto({
             model: this.model,
             page,
@@ -172,10 +147,6 @@ export abstract class BaseService<T> {
             dtoClass: filterWithDto ? this.defaultMapper : undefined,
             ...(sort ? { sort } : {})
         })) as { data: any[]; meta: IApiResponseMeta };
-
-        if (cacheKey) {
-            await CacheService.set([{ key: cacheKey, value: result }]);
-        }
         return result;
     }
 

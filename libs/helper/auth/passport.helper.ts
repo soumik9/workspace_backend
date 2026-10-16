@@ -3,7 +3,6 @@ import httpStatus from "http-status";
 import { ModelEnum } from "../../enum";
 import { JwtPayload } from "jsonwebtoken";
 import { ApiError } from "../../../config";
-import { Admin, IAdmin } from "../../../app/modules";
 
 // 1. Factory now accepts payload to allow dynamic DB resolution
 type ModelFactory<T> = (payload: JwtPayload) => Model<T> | Promise<Model<T>>;
@@ -58,8 +57,8 @@ export class PassportService<T> {
 // --- Usage Implementation ---
 
 // 1. Admin (Static DB)
-export const AdminPassportService = PassportService.getInstance<IAdmin>(
-    ModelEnum.Admin,
-    () => Admin,
-    "admin"
-);
+// export const AdminPassportService = PassportService.getInstance<IAdmin>(
+//     ModelEnum.Admin,
+//     () => Admin,
+//     "admin"
+// );

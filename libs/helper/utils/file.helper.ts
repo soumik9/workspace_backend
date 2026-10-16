@@ -130,14 +130,10 @@ class FileService {
             ? string | undefined
             : string[] | undefined,
         type: T,
-        isUseLiveUrl: boolean = false,
     ): T extends FnFileReturnTypeEnum.Single ? string : string[] {
 
-        const baseUrl = isUseLiveUrl ? config.URL.BASE_LIVE : config.URL.BASE;
+        const baseUrl = config.URL.BASE;
         let fallback = `${config.URL.BASE}/${defaultImagePath}`;
-
-        // const baseUrl = isUseLiveUrl ? process.env.BASE_LIVE_URL : process.env.BASE_URL;
-        // let fallback = `${process.env.BASE_URL}/${defaultImagePath}`;
 
         if (type === FnFileReturnTypeEnum.Single) {
             if (!paths) return fallback as any;
