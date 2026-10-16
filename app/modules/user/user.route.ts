@@ -6,7 +6,6 @@ import { UserZodSchemaInstance } from './user.zod';
 import { UserAuthMiddleware } from '../../middleware';
 import { RoleEnum } from '../../../libs/enum';
 
-
 export class UserRoutes {
     public readonly router: Router;
 
@@ -20,9 +19,20 @@ export class UserRoutes {
     private registerRoutes(): void {
         this.router.post(
             '/register',
-            // UserAuthMiddleware(RoleEnum.User),
             ZodInstance.validateRequest(UserZodSchemaInstance.register),
             this.controller.register
+        );
+
+        this.router.post(
+            '/login',
+            ZodInstance.validateRequest(UserZodSchemaInstance.login),
+            this.controller.login
+        );
+
+        this.router.get(
+            '/profile',
+            UserAuthMiddleware(RoleEnum.User),
+            this.controller.getProfile
         );
 
     }
