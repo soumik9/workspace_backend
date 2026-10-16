@@ -1,0 +1,28 @@
+{
+    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "editor.autoIndent": "full",
+    "editor.autoIndentOnPaste": false,
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true, // Use spaces instead of tabs
+    "editor.formatOnSave": true,
+    "editor.formatOnType": false,
+    // Enable/Disable specific language features
+    "[javascript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features", // No formatter for JavaScript
+        "editor.formatOnSave": true, // No auto-formatting for JavaScript files
+        "editor.tabSize": 4
+    },
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 2
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features", // No formatter for TypeScript
+        "editor.formatOnSave": true, // No auto-formatting for TypeScript files
+        "editor.tabSize": 4
+    },
+    // Ignore extensions like Prettier or ESLint from auto-formatting
+    "prettier.enable": false,
+    "eslint.format.enable": false,
+}
