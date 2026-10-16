@@ -1,5 +1,6 @@
 // app/routes/index.ts
 import { Router } from 'express';
+import { UserModuleInstance } from '../modules/user';
 
 class MainRouter {
     private readonly router: Router;
@@ -11,7 +12,7 @@ class MainRouter {
 
     private registerRoutes(): void {
         const apiRoutes: any[] = [
-            // { path: "/auth", route: AdminAuthModuleInstance.router },
+            { path: "/user", route: UserModuleInstance.router },
         ];
 
         apiRoutes.forEach((route) => {

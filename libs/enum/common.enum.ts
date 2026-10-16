@@ -11,3 +11,7 @@ export enum FnFileReturnTypeEnum {
     Single = 'single',
     Multiple = 'multiple',
 }
+
+export enum RoleEnum {
+    User = 'user',
+}

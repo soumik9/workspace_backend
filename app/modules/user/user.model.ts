@@ -4,7 +4,7 @@ import { NextFunction } from 'connect';
 import { Schema, model } from 'mongoose';
 import { IUser } from "./user.interface";
 import { CommonSchema } from "../shared/core/core.model";
-import { ModelEnum } from "../../../libs/enum";
+import { ModelEnum, RoleEnum } from "../../../libs/enum";
 import { SecurityInstance } from "../../../libs/helper";
 
 const UserSchema = new Schema<IUser>({
@@ -24,6 +24,10 @@ const UserSchema = new Schema<IUser>({
     password: {
         type: String,
         required: [true, 'Password field is required'],
+    },
+    role: {
+        type: String,
+        default: RoleEnum.User,
     },
 });
 

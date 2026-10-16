@@ -65,8 +65,8 @@ class AuthMiddleware {
     }
 }
 
-export const AdminAuthMiddleware = (...roles: string[]) => {
-    return AuthMiddlewareInstance.verify([PassportKeyEnum.AdminAuth], ...roles);
+export const UserAuthMiddleware = (...roles: string[]) => {
+    return AuthMiddlewareInstance.verify([PassportKeyEnum.UserAuth], ...roles);
 };
 
 export const AuthMiddlewareInstance = AuthMiddleware.getInstance();

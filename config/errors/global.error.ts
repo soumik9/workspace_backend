@@ -3,7 +3,7 @@ import { config } from '../server';
 import httpStatus from 'http-status';
 import { MulterError } from 'multer';
 import { errorLogger } from '../logger';
-import { ResponseInstance } from '../../libs/helper';
+import { ResponseInstance } from '../../libs/helper/core';
 import { ServerEnvironmentEnum } from '../../libs/enum';
 import { IErrorMessage } from '../../app/modules/shared';
 import { ApiError, ErrorHandlerInstance } from './custom.error';
