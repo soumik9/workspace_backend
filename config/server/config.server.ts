@@ -24,6 +24,9 @@ const EnvSchema = z.object({
     MONGODB_URI: requiredString("Mongo URI is required."),
     MONGODB_DATABASE_NAME: requiredString("MongoDB database name is required."),
 
+    OPENAI_API_KEY: z.string().default(""),
+    OPENAI_MODEL: z.string().nonempty().default("gpt-4.1-mini"),
+
     // URLs
     BASE_URL: requiredString("Base URL is required."),
 });
@@ -47,6 +50,10 @@ export const config = {
         NAME: parsedConfig.MONGODB_DATABASE_NAME,
     },
 
+    AI: {
+        KEY: parsedConfig.OPENAI_API_KEY,
+        MODEL: parsedConfig.OPENAI_MODEL,
+    },
     URL: {
         BASE: parsedConfig.BASE_URL,
     },

@@ -1,3 +1,4 @@
+import rateLimit from 'express-rate-limit';
 // workspace.route.ts
 import { Router } from 'express';
 import { WorkspaceController } from './workspace.controller';
@@ -49,6 +50,13 @@ export class WorkspaceRoutes {
             UserAuthMiddleware(RoleEnum.User),
             ZodInstance.validateRequest(WorkspaceZodSchemaInstance.getById),
             this.controller.deleteSingle
+        );
+
+        this.router.post(
+            '/summarize',
+            UserAuthMiddleware(RoleEnum.User),
+            ZodInstance.validateRequest(WorkspaceZodSchemaInstance.summarize),
+            this.controller.summarize
         );
     }
 

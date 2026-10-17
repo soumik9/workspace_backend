@@ -43,6 +43,12 @@ class WorkspaceZodSchema {
         query: this.baseIdQuery,
     });
 
+    public readonly summarize = z.object({
+        query: z.object({
+            workspace_id: z.string().regex(/^[a-fA-F0-9]{24}$/, { message: "Workspace ID is invalid" }),
+        }),
+    });
+
     public readonly create = z.object({
         body: z.preprocess(value => value === undefined ? {} : value, this.base.superRefine((body, ctx) => {
             if (body.type === WorkspaceItemType.Folder && body.content !== undefined) {

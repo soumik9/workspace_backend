@@ -175,6 +175,35 @@ export class WorkspaceController {
         }
     );
 
+    // Summarize saved content without changing the file
+    public readonly summarize: RequestHandler = ResponseInstance.catchAsync(
+        async (req: Request, res: Response) => {
+
+            const user = req.entity?._id;
+            const { workspace_id } = ParserInstance.query(req.query);
+
+            const workspace = await this.service.findOrThrow({
+                query: { _id: workspace_id, user },
+                isItemShouldExist: true,
+            });
+            if (workspace.type !== WorkspaceItemType.File) {
+                throw new ApiError(httpStatus.BAD_REQUEST, "Only text files can be summarized!");
+            }
+
+            const summary = await this.service.summarize(workspace.content ?? "");
+
+            ResponseInstance.success(res, {
+                statusCode: httpStatus.OK,
+                success: true,
+                message: "Summary generated successfully!",
+                data: {
+                    workspace_id: String(workspace._id),
+                    summary
+                },
+            });
+        }
+    );
+
     // delete controller
     public readonly deleteSingle: RequestHandler = ResponseInstance.catchAsync(
         async (req: Request, res: Response) => {

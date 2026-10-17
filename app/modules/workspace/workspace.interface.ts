@@ -3,6 +3,17 @@ import { Types } from "mongoose";
 import { ICommonModel } from "../shared";
 import { WorkspaceItemType } from "../../../libs/enum";
 
+export interface IWorkspaceAiResponse {
+    status?: string;
+    output?: {
+        type: string;
+        content?: {
+            type: string;
+            text?: string;
+        }[];
+    }[];
+}
+
 export interface IWorkspace extends ICommonModel {
     name: string;
     type: WorkspaceItemType;
