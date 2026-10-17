@@ -133,6 +133,26 @@ export class WorkspaceController {
                 throw new ApiError(httpStatus.BAD_REQUEST, "Workspace ID is invalid!");
             }
 
+            const workspace = await this.service.findOrThrow({
+                query: { _id: workspace_id, user },
+                isItemShouldExist: true,
+            });
+            if (body.content !== undefined && workspace.type !== WorkspaceItemType.File) {
+                throw new ApiError(httpStatus.BAD_REQUEST, "Content is allowed for files only!");
+            }
+            if (body.name !== undefined) {
+                await this.service.findOrThrow({
+                    query: {
+                        _id: { $ne: workspace_id },
+                        user,
+                        parent: workspace.parent,
+                        name: body.name,
+                    },
+                    isConflicted: true,
+                    conflictMessage: "An item with this name already exists in this folder!",
+                });
+            }
+
             const result = await this.service.updateOne({
                 query: {
                     _id: workspace_id,
